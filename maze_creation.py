@@ -42,4 +42,4 @@ def create_grid(width, height, side):
         for cell in grid:
             cell.find_other_cells(grid)
 
-        return grid
+    return grid

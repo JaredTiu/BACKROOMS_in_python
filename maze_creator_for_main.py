@@ -36,7 +36,7 @@ def main():
                     viable_neighbors.append(cell)
 
             if viable_neighbors:
-                select = randint(0, len(viable_neighbors)-1)
+                select = randint(0, len(viable_neighbors) -1)
                 stack.append(viable_neighbors[select])
                 current.remove_shared_wall_of_the_cell(viable_neighbors[select])
                 path.append(current)
@@ -49,19 +49,16 @@ def main():
         #shows the current cell 
         if stack: 
             position = (current.pos[0]+20, current.pos[1]+20)
-            pygame.draw.circle(screen, (255, 255, 100), position, 12)
+            pygame.draw.circle(screen, (255,255,100) , position, 12)
 
         #showing the maze that is constructed
         for cell in grid: 
             if cell.visited:
                 for wall in cell.walls:
-                    pygame.draw.line(screen, (200, 200, 200), wall[0], wall[1], 2)
+                    pygame.draw.line(screen, (200,200,200), wall[0], wall[1], 2)
 
         pygame.display.update()
         clock.tick(15)
 
 if __name__ == '__main__':
     main()
-
-
-    
