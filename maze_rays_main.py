@@ -22,7 +22,7 @@ def main():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit
+                pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -33,7 +33,7 @@ def main():
                     forward = True
                 if event.key == pygame.K_DOWN:
                     reverse = True
-            if event.type == pygame.K_UP:
+            if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT: 
                     left = False
                 if event.key == pygame.K_RIGHT: 
