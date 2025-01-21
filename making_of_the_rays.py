@@ -10,4 +10,8 @@ class Particle:
             ray = Ray(self.pos, angle, self.ray_length)
             self.rays.append(ray)
 
-            
+    def update(self, point, walls):
+        self.pos = point
+        grouped_walls = self.grouped_walls(walls)
+        for ray in self.rays:
+            ray.update(self.pos, self.dir, grouped_walls)
