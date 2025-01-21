@@ -26,4 +26,22 @@ class Cell:
             if math.dist(self.pos, cell.pos) == self.side:
                 self.find_other_cells.append(cell)
 
+    def remove_shared_wall_of_the_cell(self, cell):
+        for wall in self.walls:
+            if wall in cell.walls:
+                cell.walls.remove(wall)
+                self.walls.remove(wall)
+
+def create_grid(width, height, side):
+    grid = []
+    for i in range(0, height, side):
+        for j in range(0, width, side):
+            position = (j, i)
+            grid.append(Cell(position, side))
+
+        for cell in grid:
+            cell.find_other_cells(grid)
+
+        return grid
+    
     
