@@ -11,6 +11,14 @@ def main():
     clock = pygame.time.Clock()
 
     background = pygame.Surface((WIDTH, HEIGHT))
-    bg.fill((20,20,20))
+    background.fill((20,20,20))
 
-    
+    grid = create_grid(WIDTH, HEIGHT, 40)
+
+    stack, path = [grid[0]], []
+    while True: 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+       
