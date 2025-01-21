@@ -69,4 +69,18 @@ class Ray:
                 x3, y3 = self.pos[0], self.pos[1]
                 x4, y4 = self.pos[0] + self.dir[0], self.pos[1] + self.dir[1]
 
-                divisor = ()
+                divisor = (x1-x2)*(y3-y4) - (y1-y2)*(x3-x4)
+                if divisor == 0: 
+                    #if segment and ray parallel then there is no intersection
+                    continue
+
+                t = ((x1 - x3)*(y3 - y4) - (y1-y3)*(x3-x4)) / divisor 
+                u = -((x1 - x2)*(y1-y3) - (y1 - y2)*(x1-x3)) / divisor
+
+                if t >= 0 and t <= 1 and u > 0: 
+                    x_point = x1 + t * (x2 - x1)
+                    y_point = y1 + t * (y2 - y1)
+                    distance_check = math.dist(self.pos, (x_point, y_point))
+                    if distance_check < distance: 
+                        distance = distance_check
+                        minimum_terminus = (x_point, y_point)
