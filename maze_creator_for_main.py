@@ -7,4 +7,10 @@ from random import randint
 def main():
     pygame.init()
     WIDTH, HEIGHT = 600, 400
-    screen = 
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    clock = pygame.time.Clock()
+
+    background = pygame.Surface((WIDTH, HEIGHT))
+    bg.fill((20,20,20))
+
+    
