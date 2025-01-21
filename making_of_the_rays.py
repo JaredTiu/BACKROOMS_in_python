@@ -49,3 +49,14 @@ class Ray:
         self.length = max_length
         self.dir = None
         self.terminus = None
+
+    def update(self, point, direction, grouped_walls):
+        self.pos = point
+        self.update_direction(direction)
+        self.update_terminus(grouped_walls)
+
+    def update_direction(self, direction):
+        a = self.init_angle + direction
+        angle = math.radians(a/10)
+        self.dir = (math.cos(angle), math.sin(angle))
+    
