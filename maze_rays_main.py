@@ -32,7 +32,7 @@ def main():
                 if event.key == pygame.K_UP:
                     forward = True
                 if event.key == pygame.K_DOWN:
-                    Reverse = True
+                    reverse = True
             if event.type == pygame.K_UP:
                 if event.key == pygame.K_LEFT: 
                     left = False
@@ -46,7 +46,7 @@ def main():
         #this is for updating the particle based on the user input
         new_pos = p1.pos
         if left:
-            p1.dir -= -20
+            p1.dir -= 20
         if right: 
             p1.dir += 20
         if forward:
@@ -73,4 +73,4 @@ def main():
         clock.tick(30)
 
 if __name__ == '__main__':
-    main
+    main()
