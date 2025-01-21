@@ -10,4 +10,8 @@ class Cell:
 
             self.create_walls()
 
-            
+        def creating_walls(self):
+              top_right = (self.pos[0]+self.side, self.pos[1])
+              bottom_right = (self.pos[0]+self.side, self.pos[1]+ self.side)
+              bottom_left = (self.pos[0], self.pos[1]+ self.side)
+
