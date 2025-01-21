@@ -41,3 +41,11 @@ class Particle:
         
         grouped_walls.append(temp)
         return grouped_walls
+
+class Ray:
+    def __init__(self, position, angle, max_length):
+        self.pos = position
+        self.init_angle = angle 
+        self.length = max_length
+        self.dir = None
+        self.terminus = None
