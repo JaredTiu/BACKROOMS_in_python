@@ -61,5 +61,16 @@ def main():
             new_pos = (x, y)
         p1.update(new_pos, maze)
 
+        #this is for displaying bg, walls and particle
+        screen.blit(background, (0, 0))
+        for ray in p1.rays:
+            pygame.draw.aaline(screen, (240,240,240), ray.pos, ray.terminus, 1)
+        for wall in maze:
+            pygame.draw.line(screen, (200,200,200), wall[0], wall[1], 2)
+        pygame.draw.circle(screen, (100, 255, 100), p1.pos, 7)
 
-            
+        pygame.display.update()
+        clock.tick(30)
+
+if __name__ == '__main__':
+    main
