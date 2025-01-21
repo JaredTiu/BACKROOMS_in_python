@@ -59,4 +59,14 @@ class Ray:
         a = self.init_angle + direction
         angle = math.radians(a/10)
         self.dir = (math.cos(angle), math.sin(angle))
-    
+
+    def update_terminus(self, grouped_walls):
+        for group in grouped_walls: 
+            distance, minimum_terminus = self.length, None
+            for wall in group: 
+                x1, y1 = wall[0][0], wall[0][1]
+                x2, y2 = wall[1][0], wall[1][1]
+                x3, y3 = self.pos[0], self.pos[1]
+                x4, y4 = self.pos[0] + self.dir[0], self.pos[1] + self.dir[1]
+
+                divisor = ()
