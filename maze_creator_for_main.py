@@ -22,3 +22,26 @@ def main():
                 pygame.quit()
                 exit()
        
+        #display the background surface.
+        screen.blit(bg, (0, 0))
+
+        #this is the algorithm
+        if stack: 
+            current = stack.pop()
+            current.visited = True 
+
+            viable_neighbors = []
+            for neighbor in current.neighbors:
+                if not neighbor.visited:
+                    viable_neighbors.append(neighbor)
+
+            if viable_neighbors:
+                select = randint(0, len(viable_neighbors)-1)
+                stack.append(viable_neighbors[select])
+                current.remove_shared_wall_of_the_cell(viable_neighbors[select])
+                path.append(current)
+            
+            else: 
+                if path:
+                    backstep = path.pop()
+                    stack.append(backstep)
