@@ -7,7 +7,7 @@ class Cell:
         self.side = side
         self.visited = False
         self.walls = []
-        self.find_other_cells = []
+        self.other_cells = []
 
         self.creating_walls()
 
@@ -24,7 +24,7 @@ class Cell:
     def find_other_cells(self, grid):
         for cell in grid:
             if math.dist(self.pos, cell.pos) == self.side:
-                self.find_other_cells.append(cell)
+                self.other_cells.append(cell)
 
     def remove_shared_wall_of_the_cell(self, cell):
         for wall in self.walls:
@@ -43,5 +43,3 @@ def create_grid(width, height, side):
             cell.find_other_cells(grid)
 
         return grid
-    
-    

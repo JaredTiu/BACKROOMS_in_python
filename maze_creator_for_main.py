@@ -21,7 +21,7 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-       
+
         #display the background surface.
         screen.blit(background, (0, 0))
 
@@ -31,9 +31,9 @@ def main():
             current.visited = True 
 
             viable_neighbors = []
-            for neighbor in current.neighbors:
-                if not neighbor.visited:
-                    viable_neighbors.append(neighbor)
+            for cell in current.other_cells:
+                if not cell.visited:
+                    viable_neighbors.append(cell)
 
             if viable_neighbors:
                 select = randint(0, len(viable_neighbors)-1)
