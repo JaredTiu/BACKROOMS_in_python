@@ -23,7 +23,7 @@ def main():
                 exit()
        
         #display the background surface.
-        screen.blit(bg, (0, 0))
+        screen.blit(background, (0, 0))
 
         #this is the algorithm
         if stack: 
@@ -45,3 +45,20 @@ def main():
                 if path:
                     backstep = path.pop()
                     stack.append(backstep)
+
+        #shows the current cell 
+        if stack: 
+            position = (current.pos[0]+20, current.pos[1]+20)
+            pygame.draw.circle(screen, (255, 255, 100), position, 12)
+
+        #showing the maze that is constructed
+        for cell in grid: 
+            if cell.visited:
+                for wall in cell.walls:
+                    pygame.draw.line(screen, (200, 200, 200), wall[0], wall[1], 2)
+
+        pygame.display.update()
+        clock.tick(15)
+
+if __name__ == '__main__':
+    main()
