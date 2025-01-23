@@ -66,3 +66,11 @@ def generate_maze(width, height, side):
             if path:
                 backstep = path.pop()
                 stack.append(backstep)
+
+    # Collect walls of the visited cells
+    walls = []
+    for cell in grid: 
+        if cell.visited:
+            walls.extend(cell.walls)
+
+    return walls
