@@ -68,4 +68,34 @@ class Ray:
     def update_corrected_distance(self):
         self.corrected_distance = self.distance * math.cos(self.angle_rad)
 
+    def update_terminus(self, grouped_walls):
+        for group in grouped_walls: 
+            distance = self.length
+            minimum_terminus =  None
+            for wall in group: 
+                x1, y1 = wall[0][0], wall[0][1]
+                x2, y2 = wall[1][0], wall[1][1]
+                x3, y3 = self.pos[0], self.pos[1]
+                x4, y4 = self.pos[0] + self.dir[0], self.pos[1] + self.dir[1]
+
+                divisor = (x1-x2)*(y3-y4) - (y1-y2)*(x3-x4)
+                if divisor == 0: 
+                    #if segment and ray parallel then there is no intersection
+                    continue
+
+                t = ((x1 - x3)*(y3 - y4) - (y1-y3)*(x3-x4)) / divisor 
+                u = -((x1 - x2)*(y1-y3) - (y1 - y2)*(x1-x3)) / divisor
+
+                if t >= 0 and t <= 1 and u > 0: 
+                    x_point = x1 + t * (x2 - x1)
+                    y_point = y1 + t * (y2 - y1)
+                    distance_check = math.dist(self.pos, (x_point, y_point))
+                    if distance_check < distance: 
+                        distance = distance_check
+                        minimum_terminus = (x_point, y_point)
+
+            if distance != self.length:
+                self.terminus = minimum_terminus
+                return  
+
     
