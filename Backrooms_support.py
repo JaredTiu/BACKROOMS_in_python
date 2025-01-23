@@ -7,7 +7,7 @@ class Particle:
         self.ray_length = ray_length
         self.dir = 0
         self.rays = []
-        for angle in range(-300, 300, 5):
+        for angle in range(-300, 300, 1):
             ray = Ray(self.pos, angle, self.ray_length)
             self.rays.append(ray)
 
@@ -52,7 +52,6 @@ class Ray:
         self.terminus = None 
         self.distance = self.length
         self.corrected_distance = None
-        self.active.wall = None
 
     def update(self, point, direction, grouped_walls):
         self.pos = point
@@ -105,3 +104,5 @@ class Ray:
         self.terminus = (point_x, point_y)
         self.distance = self.length
         self.active_wall = None
+
+print("code ran correctly!")
