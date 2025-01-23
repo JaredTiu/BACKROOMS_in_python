@@ -1,11 +1,7 @@
-#this is for the window to check the rays
-
 import pygame
 import math
-from maze_reference import maze
+from maze_creation import generate_maze  
 from making_of_the_rays import Particle
-
-#main loop
 
 def main():
     pygame.init()
@@ -17,6 +13,9 @@ def main():
     background.fill((20,20,20))
 
     p1 = Particle((20,20), 500)
+
+    # Generate the maze
+    maze = generate_maze(WIDTH, HEIGHT, 40)  # Generate the maze walls
 
     left, right, forward, reverse = False, False, False, False 
     while True:
@@ -43,12 +42,12 @@ def main():
                 if event.key == pygame.K_DOWN: 
                     reverse = False
 
-        #this is for updating the particle based on the user input
+        # Update the particle based on user input
         new_pos = p1.pos
         if left:
             p1.dir -= 20
         if right: 
-            p1.dir += 20
+            p1.dir += 20 
         if forward:
             angle = math.radians((p1.dir)/10)
             x = p1.pos[0] + (1 * math.cos(angle))
@@ -61,7 +60,7 @@ def main():
             new_pos = (x, y)
         p1.update(new_pos, maze)
 
-        #this is for displaying bg, walls and particle
+        # Display background, walls, and particle
         screen.blit(background, (0, 0))
         for ray in p1.rays:
             pygame.draw.aaline(screen, (240,240,240), ray.pos, ray.terminus, 1)
