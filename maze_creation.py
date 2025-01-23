@@ -1,6 +1,6 @@
 import math
+from random import randint
 
-#this is the math for creating the maze for the main backroom game
 class Cell: 
     def __init__(self, position, side):
         self.pos = position
@@ -39,7 +39,30 @@ def create_grid(width, height, side):
             position = (j, i)
             grid.append(Cell(position, side))
 
-        for cell in grid:
-            cell.find_other_cells(grid)
+    for cell in grid:
+        cell.find_other_cells(grid)
 
     return grid
+
+def generate_maze(width, height, side):
+    grid = create_grid(width, height, side)
+
+    stack, path = [grid[0]], []
+    while stack: 
+        current = stack.pop()
+        current.visited = True 
+
+        viable_neighbors = []
+        for cell in current.other_cells:
+            if not cell.visited:
+                viable_neighbors.append(cell)
+
+        if viable_neighbors:
+            select = randint(0, len(viable_neighbors) - 1)
+            stack.append(viable_neighbors[select])
+            current.remove_shared_wall_of_the_cell(viable_neighbors[select])
+            path.append(current)
+        else: 
+            if path:
+                backstep = path.pop()
+                stack.append(backstep)
