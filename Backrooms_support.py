@@ -46,6 +46,26 @@ class Ray:
     def __init__(self, position, angle, max_length):
         self.pos = position
         self.init_angle = angle 
+        self.angle_rad = math.radians(angle/10)
         self.length = max_length
         self.dir = None
         self.terminus = None 
+        self.distance = self.length
+        self.corrected_distance = None
+        self.active.wall = None
+
+    def update(self, point, direction, grouped_walls):
+        self.pos = point
+        self.update_direction(direction)
+        self.update_terminus(grouped_walls)
+        self.update_corrected_distance()
+
+    def update_direction(self, direction):
+        a = self.init_angle + direction
+        angle = math.radians(a/10)
+        self.dir = (math.cos(angle), math.sin(angle))
+
+    def update_corrected_distance(self):
+        self.corrected_distance = self.distance * math.cos(self.angle_rad)
+
+    
