@@ -93,9 +93,15 @@ class Ray:
                     if distance_check < distance: 
                         distance = distance_check
                         minimum_terminus = (x_point, y_point)
+                        self.active_wall = wall
 
             if distance != self.length:
+                self.distance = distance
                 self.terminus = minimum_terminus
                 return  
-
-    
+        
+        point_x = self.pos[0] + self.dir[0] * self.length
+        point_y = self.pos[1] + self.dir[1] * self.length
+        self.terminus = (point_x, point_y)
+        self.distance = self.length
+        self.active_wall = None
