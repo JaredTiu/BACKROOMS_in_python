@@ -55,3 +55,19 @@ def main():
 				if event.key == pygame.K_DOWN:
 					reverse = False
 
+		#now based on those user inputs we will be updating the particle. 
+		new_pos = p1.pos
+		if left:
+			p1.dir -= 20
+		if right: 
+			p1.dir -= 20
+		if forward: 
+			angle = math.radians(p1.dir/10)
+			x = p1.pos[0] + (1 * math.cos(angle))
+			y = p1.pos[1] + (1 * math.sin(angle))
+		if reverse: 
+			angle = math.radians(p1.dir/10)
+			x = p1.pos[0] - (1 * math.cos(angle))
+			y = p1.pos[1] - (1 * math.sin(angle))
+			new_pos = (x, y)
+		p1.update(new_pos, generate_maze)
