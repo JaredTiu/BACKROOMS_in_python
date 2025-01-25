@@ -54,3 +54,4 @@ def main():
 					forward = False
 				if event.key == pygame.K_DOWN:
 					reverse = False
+
