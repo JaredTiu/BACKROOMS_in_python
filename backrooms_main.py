@@ -71,3 +71,13 @@ def main():
 			y = p1.pos[1] - (1 * math.sin(angle))
 			new_pos = (x, y)
 		p1.update(new_pos, generate_maze)
+
+		#this displays the background, rays, walls and particle
+		screen.blit(background, (0, 0))
+		screen.blit(ceiling, (width//2, 0))
+		screen.blit(floor, (width//2, height//2))
+		for ray in p1.rays:
+			pygame.draw.aaline(screen, (240,240,240), ray.pos, ray.terminus, 1)
+		for wall in generate_maze:
+			pygame.draw.line(screen, (200,200,200), wall[0], wall[1], 1)
+		pygame.draw.circle(screen, (100,255,100), p1.pos, 7)
