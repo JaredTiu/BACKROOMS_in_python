@@ -8,16 +8,17 @@ from Backrooms_support import Particle
 
 def main():
     pygame.init()
-    width, height = 1200, 400
+    width, height = 1000, 600
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
 
-    background = pygame.Surface((width, height))
-    background.fill((20,20,20))
-    ceiling = pygame.Surface((width // 2, height // 2))
-    ceiling.fill((87,82,73))
-    floor = pygame.Surface((width // 2, height // 2))
-    floor.fill((113,82,41))
+    background_color = (20, 20, 20)
+    # background = pygame.Surface((width, height))
+    # background.fill((20,20,20))
+    # ceiling = pygame.Surface((width // 2, height // 2))
+    # ceiling.fill((87,82,73))
+    # floor = pygame.Surface((width // 2, height // 2))
+    # floor.fill((113,82,41))
     
     wall_texture = pygame.image.load('stonewall.png').convert()
     wall_texture = pygame.transform.scale(wall_texture, (400, 100))
@@ -69,13 +70,10 @@ def main():
         p1.update(new_pos, maze)
 		
 		#this displays the background, rays, walls and particle
-        screen.blit(background, (0, 0))
-        screen.blit(ceiling, (width // 2, 0))
-        screen.blit(floor, (width // 2, height // 2))
+        screen.fill(background_color)
         
-
-        slice_w = (width // 2) / len(p1.rays)
-        offset = width // 2
+        slice_w = width / len(p1.rays)
+        offset = 0
         for i, ray in enumerate(p1.rays):
             if ray.active_wall:
                 if ray.terminus[0] == ray.active_wall[0][0]:
