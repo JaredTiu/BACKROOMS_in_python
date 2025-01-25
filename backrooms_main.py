@@ -9,10 +9,10 @@ from Backrooms_support import Particle
 def main():
     pygame.init()
     width, height = 1200, 400
-    screen = pygame.display.set.mode((width, height))
+    screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
 
-    background = pygame.surface((width, height))
+    background = pygame.Surface((width, height))
     background.fill((20,20,20))
     ceiling = pygame.Surface((width//2, height//2))
     ceiling.fill((87,82,73))
@@ -23,8 +23,9 @@ def main():
     wall_texture = pygame.transform.scale(wall_texture, (400, 100))
 	
     p1 = Particle((20,20), 500)
+    maze = generate_maze(width, height, 40)
 	
-    left, right, left, forward, reverse = False, False, False, False 
+    left, right, forward, reverse = False, False, False, False 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -65,17 +66,17 @@ def main():
             x = p1.pos[0] - (1 * math.cos(angle))
             y = p1.pos[1] - (1 * math.sin(angle))
             new_pos = (x, y)
-        p1.update(new_pos, generate_maze)
+        p1.update(new_pos, maze)
 		
 		#this displays the background, rays, walls and particle
         screen.blit(background, (0, 0))
         screen.blit(ceiling, (width//2, 0))
         screen.blit(floor, (width//2, height//2))
-        for ray in p1.rays:
-            pygame.draw.aaline(screen, (240,240,240), ray.pos, ray.terminus, 1)
-        for wall in generate_maze:
-            pygame.draw.line(screen, (200,200,200), wall[0], wall[1], 2)
-        pygame.draw.circle(screen, (100, 255, 100), p1.pos, 7)
+        # for ray in p1.rays:
+        #     pygame.draw.aaline(screen, (240,240,240), ray.pos, ray.terminus, 1)
+        # # for wall in maze:
+        # #     pygame.draw.line(screen, (200,200,200), wall[0], wall[1], 2)
+        # pygame.draw.circle(screen, (100, 255, 100), p1.pos, 7)
         
 
         slice_w = (width//2)/len(p1.rays)
