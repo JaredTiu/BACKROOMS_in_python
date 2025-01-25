@@ -81,3 +81,24 @@ def main():
 		for wall in generate_maze:
 			pygame.draw.line(screen, (200,200,200), wall[0], wall[1], 1)
 		pygame.draw.circle(screen, (100,255,100), p1.pos, 7)
+
+		slice_w = (width//2)/len(p1.rays)
+		offset = width//2
+		for i, ray in enumerate(p1.rays):
+			if ray.active_wall:
+				if ray.terminus[0] == ray.active_wall[0][0]:
+					img_start = abs(ray.terminus[1] - ray.active_wall[0][1]) * 10
+				else:
+					img_start = abs(ray.terminus[0] - ray.active_wall[0][0]) * 10
+
+				if img_start >= 300:
+					img_start -= 300
+
+				h = (10 / ray.corrected_distance)*height
+				if h > height:
+					h = height
+				w = h * 4
+				y = (height/2) - (h/2)
+				img_start = (img_start*w) / 400
+				tmp_img = pygame.transform.scale(wall_texture, (w, h))
+				screen.blit(tmp_img, (offset+(i*slice_w), y), (img_start,0,slice_w,h))
