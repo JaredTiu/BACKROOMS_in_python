@@ -25,84 +25,54 @@ def main():
     p1 = Particle((20,20), 500)
 	
     left, right, left, forward, reverse = False, False, False, False 
-	while True:
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				pygame.quit()
-				exit()
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_LEFT:
-					left = True
-				if event.key == pygame.K_RIGHT:
-					right = True
-				if event.key == pygame.K_UP:
-					forward = True
-				if event.key == pygame.K_DOWN:
-					reverse = True
-				if event.key == pygame.K_ESCAPE:
-					pygame.quit()
-					exit()
-			if event.type == pygame.KEYUP:
-				if event.key == pygame.K_LEFT:
-					left = False
-				if event.key == pygame.K_RIGHT:
-					right = False
-				if event.key == pygame.K_UP:
-					forward = False
-				if event.key == pygame.K_DOWN:
-					reverse = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    left = True 
+                if event.key == pygame.K_RIGHT:
+                    right = True 
+                if event.key == pygame.K_UP:
+                    forward = True
+                if event.key == pygame.K_DOWN:
+                    reverse = True
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT: 
+                    left = False
+                if event.key == pygame.K_RIGHT: 
+                    right = False 
+                if event.key == pygame.K_UP:
+                    forward = False
+                if event.key == pygame.K_DOWN: 
+                    reverse = False
 
 		#now based on those user inputs we will be updating the particle. 
-		new_pos = p1.pos
-		if left:
-			p1.dir -= 20
-		if right: 
-			p1.dir -= 20
-		if forward: 
-			angle = math.radians(p1.dir/10)
-			x = p1.pos[0] + (1 * math.cos(angle))
-			y = p1.pos[1] + (1 * math.sin(angle))
-		if reverse: 
-			angle = math.radians(p1.dir/10)
-			x = p1.pos[0] - (1 * math.cos(angle))
-			y = p1.pos[1] - (1 * math.sin(angle))
-			new_pos = (x, y)
-		p1.update(new_pos, generate_maze)
-
+        new_pos = p1.pos
+        if left:
+            p1.dir -= 20
+        if right: 
+            p1.dir += 20 
+        if forward:
+            angle = math.radians((p1.dir)/10)
+            x = p1.pos[0] + (1 * math.cos(angle))
+            y = p1.pos[1] + (1 * math.sin(angle))
+            new_pos = (x, y)
+        if reverse:
+            angle = math.radians((p1.dir)/10)
+            x = p1.pos[0] - (1 * math.cos(angle))
+            y = p1.pos[1] - (1 * math.sin(angle))
+            new_pos = (x, y)
+        p1.update(new_pos, generate_maze)
+		
 		#this displays the background, rays, walls and particle
-		screen.blit(background, (0, 0))
-		screen.blit(ceiling, (width//2, 0))
-		screen.blit(floor, (width//2, height//2))
-		for ray in p1.rays:
-			pygame.draw.aaline(screen, (240,240,240), ray.pos, ray.terminus, 1)
-		for wall in generate_maze:
-			pygame.draw.line(screen, (200,200,200), wall[0], wall[1], 1)
-		pygame.draw.circle(screen, (100,255,100), p1.pos, 7)
-
-		slice_w = (width//2)/len(p1.rays)
-		offset = width//2
-		for i, ray in enumerate(p1.rays):
-			if ray.active_wall:
-				if ray.terminus[0] == ray.active_wall[0][0]:
-					img_start = abs(ray.terminus[1] - ray.active_wall[0][1]) * 10
-				else:
-					img_start = abs(ray.terminus[0] - ray.active_wall[0][0]) * 10
-
-				if img_start >= 300:
-					img_start -= 300
-
-				h = (10 / ray.corrected_distance)*height
-				if h > height:
-					h = height
-				w = h * 4
-				y = (height/2) - (h/2)
-				img_start = (img_start*w) / 400
-				tmp_img = pygame.transform.scale(wall_texture, (w, h))
-				screen.blit(tmp_img, (offset+(i*slice_w), y), (img_start,0,slice_w,h))
-
-		pygame.display.update()
-		clock.tick(30)
-
-
-if __name__ == '__main__':
-	main()
+        screen.blit(background, (0, 0))
+        screen.blit(ceiling, (width//2, 0))
+        screen.blit(floor, (width//2, height//2))
+        for ray in p1.rays:
+            pygame.draw.aaline(screen, (240,240,240), ray.pos, ray.terminus, 1)
+        for wall in generate_maze:
+            pygame.draw.line(screen, (200,200,200), wall[0], wall[1], 2)
+        pygame.draw.circle(screen, (100, 255, 100), p1.pos, 7)        
