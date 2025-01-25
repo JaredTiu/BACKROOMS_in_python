@@ -14,9 +14,9 @@ def main():
 
     background = pygame.Surface((width, height))
     background.fill((20,20,20))
-    ceiling = pygame.Surface((width//2, height//2))
+    ceiling = pygame.Surface((width // 2, height // 2))
     ceiling.fill((87,82,73))
-    floor = pygame.Surface((width//2, height//2))
+    floor = pygame.Surface((width // 2, height // 2))
     floor.fill((113,82,41))
     
     wall_texture = pygame.image.load('stonewall.png').convert()
@@ -70,17 +70,12 @@ def main():
 		
 		#this displays the background, rays, walls and particle
         screen.blit(background, (0, 0))
-        screen.blit(ceiling, (width//2, 0))
-        screen.blit(floor, (width//2, height//2))
-        # for ray in p1.rays:
-        #     pygame.draw.aaline(screen, (240,240,240), ray.pos, ray.terminus, 1)
-        # # for wall in maze:
-        # #     pygame.draw.line(screen, (200,200,200), wall[0], wall[1], 2)
-        # pygame.draw.circle(screen, (100, 255, 100), p1.pos, 7)
+        screen.blit(ceiling, (width // 2, 0))
+        screen.blit(floor, (width // 2, height // 2))
         
 
-        slice_w = (width//2)/len(p1.rays)
-        offset = width//2
+        slice_w = (width // 2) / len(p1.rays)
+        offset = width // 2
         for i, ray in enumerate(p1.rays):
             if ray.active_wall:
                 if ray.terminus[0] == ray.active_wall[0][0]:
@@ -96,7 +91,7 @@ def main():
             if h > height:
                 h = height
             w = h * 4
-            y = (height/2) - (h/2)
+            y = (height / 2) - (h / 2)
             temp_image = pygame.transform.scale(wall_texture, (w, h))
             screen.blit(temp_image, (offset+(i*slice_w), y), (img_start,0,slice_w,h))
 
