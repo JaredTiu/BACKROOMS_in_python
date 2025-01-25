@@ -102,3 +102,10 @@ def main():
 				img_start = (img_start*w) / 400
 				tmp_img = pygame.transform.scale(wall_texture, (w, h))
 				screen.blit(tmp_img, (offset+(i*slice_w), y), (img_start,0,slice_w,h))
+
+		pygame.display.update()
+		clock.tick(30)
+
+
+if __name__ == '__main__':
+	main()
