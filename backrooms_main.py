@@ -24,10 +24,7 @@ def main():
 	
     p1 = Particle((20,20), 500)
 	
-    left = False
-	right = False
-	forward = False
-	reverse = False
+    left, right, left, forward, reverse = False, False, False, False 
 	while True:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
