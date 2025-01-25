@@ -16,6 +16,7 @@ class Particle:
         grouped_walls = self.grouped_walls(walls)
         for ray in self.rays:
             ray.update(self.pos, self.dir, grouped_walls)
+    
     def grouped_walls(self, walls):
         distances = []
         for wall in walls:
@@ -52,6 +53,7 @@ class Ray:
         self.terminus = None 
         self.distance = self.length
         self.corrected_distance = None
+        self.active_wall = None
 
     def update(self, point, direction, grouped_walls):
         self.pos = point

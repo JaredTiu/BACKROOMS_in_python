@@ -1,10 +1,7 @@
-#this will be the main code for the main game. 
-
 import pygame
 import math
-from sys import exit
-from maze_creation import generate_maze
-from Backrooms_support import Particle
+from maze_creation import generate_maze  
+from Backrooms_support import Ray, Particle
 
 def main():
     pygame.init()
@@ -13,19 +10,12 @@ def main():
     clock = pygame.time.Clock()
 
     background_color = (20, 20, 20)
-    # background = pygame.Surface((width, height))
-    # background.fill((20,20,20))
-    # ceiling = pygame.Surface((width // 2, height // 2))
-    # ceiling.fill((87,82,73))
-    # floor = pygame.Surface((width // 2, height // 2))
-    # floor.fill((113,82,41))
-    
     wall_texture = pygame.image.load('stonewall.png').convert()
     wall_texture = pygame.transform.scale(wall_texture, (400, 100))
-	
-    p1 = Particle((20,20), 500)
-    maze = generate_maze(width, height, 40)
-	
+    
+    p1 = Particle((20, 20), 500)  # Create a Particle instance
+    maze = generate_maze(width, height, 40)  # Generate the maze
+
     left, right, forward, reverse = False, False, False, False 
     while True:
         for event in pygame.event.get():
@@ -51,25 +41,25 @@ def main():
                 if event.key == pygame.K_DOWN: 
                     reverse = False
 
-		#now based on those user inputs we will be updating the particle. 
-        new_pos = p1.pos
+        # Update particle direction based on user input
         if left:
             p1.dir -= 20
         if right: 
             p1.dir += 20 
-        if forward:
-            angle = math.radians((p1.dir)/10)
-            x = p1.pos[0] + (1 * math.cos(angle))
-            y = p1.pos[1] + (1 * math.sin(angle))
+        if forward or reverse:
+            angle = math.radians((p1.dir) / 10)
+            movement = 1 if forward else -1
+            x = p1.pos[0] + (movement * math.cos(angle))
+            y = p1.pos[1] + (movement * math.sin(angle))
             new_pos = (x, y)
-        if reverse:
-            angle = math.radians((p1.dir)/10)
-            x = p1.pos[0] - (1 * math.cos(angle))
-            y = p1.pos[1] - (1 * math.sin(angle))
-            new_pos = (x, y)
-        p1.update(new_pos, maze)
-		
-		#this displays the background, rays, walls and particle
+            p1.update(new_pos, maze)  
+
+        p1.rays = []  # Clear previous rays
+        for angle in range(-150, 150, 5):  # Cast rays every 5 degrees instead of 1
+            ray = Ray(p1.pos, angle, p1.ray_length)
+            p1.rays.append(ray)
+
+        # Display the background
         screen.fill(background_color)
         
         slice_w = width / len(p1.rays)
@@ -91,12 +81,10 @@ def main():
             w = h * 4
             y = (height / 2) - (h / 2)
             temp_image = pygame.transform.scale(wall_texture, (w, h))
-            screen.blit(temp_image, (offset+(i*slice_w), y), (img_start,0,slice_w,h))
+            screen.blit(temp_image, (offset + (i * slice_w), y), (img_start, 0, slice_w, h))
 
         pygame.display.update()
         clock.tick(30)
 
 if __name__ == '__main__':
     main()
-
-    
