@@ -66,32 +66,24 @@ def main():
         # Display the background
         screen.fill(background_color)
 
-        # Draw the walls for debugging
-        for wall in maze:
-            pygame.draw.line(screen, (255, 0, 0), wall[0], wall[1], 2)  # Draw walls in red
+        # # Draw the walls for debugging (optional)
+        # for wall in maze:
+        #     pygame.draw.line(screen, (255, 0, 0), wall[0], wall[1], 2)  # Draw walls in red
 
         slice_w = width / len(p1.rays)
         for i, ray in enumerate(p1.rays):
-            img_start = 0  # Initialize img_start
             if ray.active_wall:
-                if ray.terminus[0] == ray.active_wall[0][0]:
-                    img_start = abs(ray.terminus[1] - ray.active_wall[0][1]) * 10
-                else: 
-                    img_start = abs(ray.terminus[0] - ray.active_wall[0][1]) * 10
-
-            if img_start >= 300:
-                img_start -= 300
-
-            if ray.corrected_distance > 0:  # Avoid division by zero
+                # Calculate height based on distance
                 h = (10 / ray.corrected_distance) * height
                 if h > height:
                     h = height
 
-                # Use precomputed textures for performance
-                index = min(len(wall_texture_scaled) - 1, int(h / 10))
-                temp_image = wall_texture_scaled[index]
+                # Calculate the position to draw the wall
                 y = (height / 2) - (h / 2)
-                screen.blit(temp_image, (i * slice_w, y), (img_start, 0, slice_w, h))
+                
+                # Use wall texture
+                texture = wall_texture_scaled[min(len(wall_texture_scaled) - 1, int(h / 10))]
+                screen.blit(texture, (i * slice_w, y), (0, 0, slice_w, h))
 
         pygame.display.update()
         clock.tick(30)
