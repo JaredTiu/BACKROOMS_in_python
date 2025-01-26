@@ -14,7 +14,6 @@ def main():
     floor_color = (50, 50, 50) 
     ceiling_color = (100, 100, 100)
     
-    
     wall_texture = pygame.image.load('capture.PNG').convert()
     
     p1 = Particle((20, 20), 250)
@@ -46,7 +45,7 @@ def main():
                 if event.key == pygame.K_DOWN: 
                     reverse = False
 
-        # Update the particle based on user inputs
+        # Calculate the new position based on user inputs
         new_pos = p1.pos
         if left:
             p1.dir -= 20
@@ -62,8 +61,11 @@ def main():
             x = p1.pos[0] - (1 * math.cos(angle))
             y = p1.pos[1] - (1 * math.sin(angle))
             new_pos = (x, y)
-        p1.update(new_pos, maze)
-        
+
+        # Check for collision before updating the position
+        if not p1.collision_detection(new_pos, maze):
+            p1.update(new_pos, maze)  # Update only if no collision
+
         # Display the background
         screen.fill(background_color)
 
