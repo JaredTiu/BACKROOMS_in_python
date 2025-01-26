@@ -17,6 +17,27 @@ class Particle:
         for ray in self.rays:
             ray.update(self.pos, self.dir, grouped_walls)
     
+    def collision_detection(self, new_pos, walls):
+        for wall in walls:
+            if self.line_intersects_wall(self.pos, new_pos, wall):
+                return True
+        return False
+    
+    def line_intersects_wall(self, start, end, wall):
+        x1, y1 = wall[0]
+        x2, y2 = wall[1]
+        x3, y3 = start
+        x4, y4 = end
+
+        denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+        if denom == 0:
+            return False  # Lines are parallel
+
+        t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom
+        u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom
+
+        return 0 <= t <= 1 and 0 <= u <= 1
+    
     def grouped_walls(self, walls):
         distances = []
         for wall in walls:
