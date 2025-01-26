@@ -14,7 +14,7 @@ def main():
     
     # Load wall texture
     wall_texture = pygame.image.load('stonewall.png').convert()
-    wall_texture_scaled = [pygame.transform.scale(wall_texture, (400, h)) for h in range(1, 401, 10)]
+    wall_texture_scaled = [pygame.transform.smoothscale(wall_texture, (400, h)) for h in range(1, 401, 10)]
     
     p1 = Particle((20, 20), 250)
     maze = generate_maze(width, height, 40)
