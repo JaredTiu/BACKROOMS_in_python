@@ -1,5 +1,3 @@
-#this will be the main code for the main game. 
-
 import pygame
 import math
 from sys import exit
@@ -13,19 +11,14 @@ def main():
     clock = pygame.time.Clock()
 
     background_color = (20, 20, 20)
-    # background = pygame.Surface((width, height))
-    # background.fill((20,20,20))
-    # ceiling = pygame.Surface((width//2, height//2))
-    # ceiling.fill((87,82,73))
-    # floor = pygame.Surface((width//2, height//2))
-    # floor.fill((113,82,41))
     
+    # Load wall texture
     wall_texture = pygame.image.load('stonewall.png').convert()
     wall_texture_scaled = [pygame.transform.scale(wall_texture, (400, h)) for h in range(1, 401, 10)]
-	
-    p1 = Particle((20,20), 250)
+    
+    p1 = Particle((20, 20), 250)
     maze = generate_maze(width, height, 40)
-	
+    
     left, right, forward, reverse = False, False, False, False 
     
     while True:
@@ -52,7 +45,7 @@ def main():
                 if event.key == pygame.K_DOWN: 
                     reverse = False
 
-		#now based on those user inputs we will be updating the particle. 
+        # Update the particle based on user inputs
         new_pos = p1.pos
         if left:
             p1.dir -= 20
@@ -64,20 +57,18 @@ def main():
             y = p1.pos[1] + (1 * math.sin(angle))
             new_pos = (x, y)
         if reverse:
-            angle = math.radians((p1.dir)/10)
+            angle = math.radians((p1.dir) / 10)
             x = p1.pos[0] - (1 * math.cos(angle))
             y = p1.pos[1] - (1 * math.sin(angle))
             new_pos = (x, y)
         p1.update(new_pos, maze)
-		
-		#this displays the background, rays, walls and particle
-        # screen.blit(background, (0, 0))
-        # screen.blit(ceiling, (width//2, 0))
-        # screen.blit(floor, (width//2, height//2))
+        
+        # Display the background
         screen.fill(background_color)
         
         slice_w = width / len(p1.rays)
         for i, ray in enumerate(p1.rays):
+            img_start = 0  # Initialize img_start
             if ray.active_wall:
                 if ray.terminus[0] == ray.active_wall[0][0]:
                     img_start = abs(ray.terminus[1] - ray.active_wall[0][1]) * 10
@@ -87,10 +78,10 @@ def main():
             if img_start >= 300:
                 img_start -= 300
 
-            h = (10 / ray.corrected_distance) * height
-
-            if h > height:
-                h = height
+            if ray.corrected_distance > 0:  # Avoid division by zero
+                h = (10 / ray.corrected_distance) * height
+                if h > height:
+                    h = height
 
                 # Use precomputed textures for performance
                 index = min(len(wall_texture_scaled) - 1, int(h / 10))
@@ -100,9 +91,6 @@ def main():
 
         pygame.display.update()
         clock.tick(30)
-        # print(f"particle position: {p1.pos}")
-        # print(f"Number of rays: {len(p1.rays)}")
 
 if __name__ == '__main__':
     main()
-    
