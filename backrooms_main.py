@@ -13,8 +13,7 @@ def main():
     background_color = (20, 20, 20)
     
     # Load wall texture
-    wall_texture = pygame.image.load('stonewall.png').convert()
-    wall_texture_scaled = [pygame.transform.smoothscale(wall_texture, (400, h)) for h in range(1, 401, 10)]
+    wall_texture = pygame.image.load('capture.PNG').convert()
     
     p1 = Particle((20, 20), 250)
     maze = generate_maze(width, height, 40)
@@ -73,17 +72,17 @@ def main():
         slice_w = width / len(p1.rays)
         for i, ray in enumerate(p1.rays):
             if ray.active_wall:
-                # Calculate height based on distance
-                h = (10 / ray.corrected_distance) * height
-                if h > height:
-                    h = height
+        # Calculate height based on distance
+                h = (15 / ray.corrected_distance) * height
+            if h > height:
+                h = height
 
-                # Calculate the position to draw the wall
-                y = (height / 2) - (h / 2)
-                
-                # Use wall texture
-                texture = wall_texture_scaled[min(len(wall_texture_scaled) - 1, int(h / 10))]
-                screen.blit(texture, (i * slice_w, y), (0, 0, slice_w, h))
+        # Calculate the position to draw the wall
+            y = (height / 2) - (h / 2)
+
+        # Draw the wall texture directly without slicing
+            scaled_texture = pygame.transform.smoothscale(wall_texture, (int(slice_w), int(h)))
+            screen.blit(scaled_texture, (i * slice_w, y))
 
         pygame.display.update()
         clock.tick(30)
