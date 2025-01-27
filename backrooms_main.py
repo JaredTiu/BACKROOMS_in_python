@@ -14,7 +14,7 @@ def main():
     background_color = (20, 20, 20)
     
     wall_texture = pygame.image.load('ol6febcwjh871.png').convert()
-    # enemy_texture = pygame.image.load('kaw.png').convert_alpha()  # Load your enemy texture
+    enemy_texture = pygame.image.load('kaw.png').convert_alpha()  # Load your enemy texture
 
     p1 = Particle((20, 20), 250)
     maze = generate_maze(width, height, 40)  # Get the maze walls
