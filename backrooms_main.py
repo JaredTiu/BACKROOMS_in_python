@@ -13,7 +13,7 @@ def main():
     # background_color = (0, 0, 0)
     
     wall_texture = pygame.image.load('ol6febcwjh871.PNG').convert()
-    ceiling_image = pygame.image.load('backrooms_ceiling.png').convert()
+    ceiling_image = pygame.image.load('images.jpg').convert()
     floor_image = pygame.image.load('floor.png').convert()  # Load the floor texture
 
     ceiling_scaled_width = width  # Set the width to the screen width
