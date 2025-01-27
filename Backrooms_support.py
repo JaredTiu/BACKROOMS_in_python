@@ -1,4 +1,5 @@
 #this will be a file support for backrooms main 
+import pygame
 import math
 
 class Particle: 
@@ -127,5 +128,18 @@ class Ray:
         self.terminus = (point_x, point_y)
         self.distance = self.length
         self.active_wall = None
+
+def display_fade_out_message(screen, message, font, duration=3000):
+    # Render the text
+    text_surface = font.render(message, True, (255, 255, 255))  # White text
+    text_rect = text_surface.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+    
+    # Fade out effect
+    for alpha in range(255, -1, -5):  # Decrease alpha from 255 to 0
+        text_surface.set_alpha(alpha)  # Set the alpha for the text surface
+        screen.fill((0, 0, 0))  # Fill the screen with black
+        screen.blit(text_surface, text_rect)  # Draw the text
+        pygame.display.update()  # Update the display
+        pygame.time.delay(duration // 51)  # Control the speed of the fade out
 
 print("code ran correctly!")

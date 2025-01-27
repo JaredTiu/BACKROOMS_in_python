@@ -2,7 +2,7 @@ import pygame
 import math
 from sys import exit
 from maze_creation import generate_maze
-from Backrooms_support import Particle
+from Backrooms_support import Particle, display_fade_out_message
 
 def main():
     pygame.init()
@@ -17,8 +17,14 @@ def main():
     pygame.mixer.music.load("A1 - It's just a burning memory.mp3")
     pygame.mixer.music.play(loops=-1)
 
+    pygame.font.init()
+    font_size_for_intro = 50
+    font_for_intro = pygame.font.Font(None, font_size_for_intro)
+
     p1 = Particle((20, 20), 250)
     maze = generate_maze(width, height, 40)  # Get the maze walls
+
+    display_fade_out_message(screen, "ESCAPE THE BACKROOMS", font_for_intro)
 
 
     left, right, forward, reverse = False, False, False, False 
