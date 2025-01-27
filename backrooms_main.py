@@ -9,8 +9,6 @@ def main():
     width, height = 800, 600
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
-
-    # background_color = (0, 0, 0)
     
     wall_texture = pygame.image.load('ol6febcwjh871.PNG').convert()
     ceiling_image = pygame.image.load('images.jpg').convert()
@@ -94,7 +92,7 @@ def main():
         for wall in maze:
             if len(wall) == 3 and wall[2]:  # Check if this is the exit wall
                 if p1.line_intersects_wall(p1.pos, new_pos, wall[:2]):  # Pass only the coordinates, not the exit flag
-                    player_yehey = "YEHEY"
+                    player_yehey = "YEHEY!"
                     text_surface = font_for_yehey.render(player_yehey, True, (0, 0, 0))  # White text
                     text_rect = text_surface.get_rect(center=(width // 2, height // 2))
                     screen.blit(text_surface, text_rect)  # Center the text
