@@ -73,10 +73,12 @@ def generate_maze(width, height, side):
         if cell.visited:
             walls.extend(cell.walls)
 
-    # Set a specific wall as the exit wall close to the player's starting position
-    # Example: Set the exit wall to the first wall in the list
-    exit_wall = walls[0]  # Change this index as needed for testing
+    # Randomly select a wall to be the exit
+    exit_wall = walls[randint(0, len(walls) - 1)]
     exit_wall.append(True)  # Mark this wall as the exit
+
+    # exit_wall = walls[0]  # Change this index as needed for testing
+    # exit_wall.append(True)  # Mark this wall as the exit
 
     # Print the exit wall's coordinates
     print(f"Exit wall coordinates: {exit_wall[0]} to {exit_wall[1]}")

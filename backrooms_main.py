@@ -80,28 +80,43 @@ def main():
         screen.fill(background_color)
 
         # Draw the maze walls
+        # Draw the maze walls
         slice_w = width / len(p1.rays)
         for i, ray in enumerate(p1.rays):
             if ray.active_wall:
-                # Calculate height based on distance
+        # Calculate height based on distance
                 h = (15 / ray.corrected_distance) * height
-                if h > height:
-                    h = height
+            if h > height:
+                h = height
 
-                # Calculate the position to draw the wall
-                y = (height / 2) - (h / 2)
+        # Calculate the position to draw the wall
+            y = (height / 2) - (h / 2)
 
-                # Calculate the texture slice with a slight overlap
+        # Check if this wall is the exit wall
+            is_exit_wall = False
+            for wall in maze:
+                if len(wall) == 3 and wall[2]:  # Check if this is the exit wall
+                    if wall[:2] == ray.active_wall:  # Compare wall coordinates
+                        is_exit_wall = True
+                        break
+
+            if is_exit_wall:
+            # Draw the exit wall as a line
+                line_color = (255, 0, 0)  # Red color for the exit line
+                line_width = 5  # Width of the line
+                pygame.draw.line(screen, line_color, (i * slice_w, y), (i * slice_w, y + h), line_width)  # Draw exit line
+            else:
+            # Calculate the texture slice with a slight overlap
                 tex_slice = int((i / len(p1.rays)) * wall_texture.get_width())
                 tex_slice = min(tex_slice, wall_texture.get_width() - 1)
 
-                # Create a subsurface of the texture for the current slice
+            # Create a subsurface of the texture for the current slice
                 texture_slice = wall_texture.subsurface(tex_slice, 0, 2, wall_texture.get_height())  # Slightly wider slice
 
-                # Scale the texture slice to the height of the wall
+            # Scale the texture slice to the height of the wall
                 scaled_texture = pygame.transform.smoothscale(texture_slice, (int(slice_w + 1), int(h)))  # Slightly wider slice
 
-                # Draw the scaled texture slice with a slight overlap
+            # Draw the scaled texture slice with a slight overlap
                 screen.blit(scaled_texture, (i * slice_w - 1, y))  # Slight overlap
 
         # Display the player's position on the screen
