@@ -4,12 +4,6 @@ from sys import exit
 from maze_creation import generate_maze
 from Backrooms_support import Particle
 
-import pygame
-import math
-from sys import exit
-from maze_creation import generate_maze
-from Backrooms_support import Particle
-
 def main():
     pygame.init()
     width, height = 800, 600
