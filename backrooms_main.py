@@ -38,7 +38,6 @@ def main():
     left, right, forward, reverse = False, False, False, False 
 
     # Initialize font for displaying text
-    pygame.font.init()
     font_size_for_yehey = 100
     font_for_yehey = pygame.font.Font(None, font_size_for_yehey)
     font = pygame.font.SysFont("Arial", 24)
@@ -103,8 +102,8 @@ def main():
                     exit()
 
         # Draw the floor and ceiling
-        screen.blit(ceiling_image, (0, 0))
-        screen.blit(floor_image, (0, height // 2))
+        # screen.blit(ceiling_image, (0, 0))
+        # screen.blit(floor_image, (0, height // 2))
 
         # Draw the maze walls
         slice_w = width / len(p1.rays)
