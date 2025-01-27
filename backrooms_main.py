@@ -5,6 +5,7 @@ from maze_creation import generate_maze
 from Backrooms_support import Particle
 from enemy import Enemy
 
+
 def main():
     pygame.init()
     width, height = 800, 600
@@ -14,13 +15,14 @@ def main():
     background_color = (20, 20, 20)
     
     wall_texture = pygame.image.load('ol6febcwjh871.png').convert()
-    enemy_texture = pygame.image.load('kaw.png').convert_alpha()  # Load your enemy texture
+    enemy_texture = pygame.image.load('bericow.jpg').convert_alpha()  # Load your enemy texture
+    ground_level = height - 150 # Assuming the enemy sprite is 64 pixels tall
 
     p1 = Particle((20, 20), 250)
     maze = generate_maze(width, height, 40)  # Get the maze walls
 
     # Initialize enemy
-    enemy = Enemy(100, 100)  # Starting position of the enemy
+    enemy = Enemy(100, ground_level)  # Set the enemy's Y position to ground level
 
     left, right, forward, reverse = False, False, False, False 
 
@@ -127,7 +129,7 @@ def main():
                     screen.blit(scaled_texture, (i * slice_w - 1, y))  # Slight overlap
 
         # Draw the enemy
-        enemy.draw(screen, enemy_texture)  # Pass enemy_texture to the draw method
+        enemy.draw(screen, enemy_texture, ground_level)  # Pass enemy_texture and ground level
 
         # Display the player's position on the screen
         player_position_text = f"Player Position: ({int(p1.pos[0])}, {int(p1.pos[1])})"
