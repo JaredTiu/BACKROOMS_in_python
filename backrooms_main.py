@@ -3,6 +3,7 @@ import math
 from sys import exit
 from maze_creation import generate_maze
 from Backrooms_support import Particle
+from enemy import Enemy
 
 def main():
     pygame.init()
@@ -13,10 +14,14 @@ def main():
     background_color = (20, 20, 20)
     
     wall_texture = pygame.image.load('ol6febcwjh871.png').convert()
-    
+    # enemy_texture = pygame.image.load('kaw.png').convert_alpha()  # Load your enemy texture
+
     p1 = Particle((20, 20), 250)
     maze = generate_maze(width, height, 40)  # Get the maze walls
-    
+
+    # Initialize enemy
+    enemy = Enemy(100, 100)  # Starting position of the enemy
+
     left, right, forward, reverse = False, False, False, False 
 
     # Initialize font for displaying text
@@ -76,48 +81,53 @@ def main():
                     pygame.quit()
                     exit()
 
-        # Display the background
-        screen.fill(background_color)
+        # Update enemy position
+        enemy.update(p1.pos[0], p1.pos[1])  # Update enemy position based on player position
 
-        # Draw the maze walls
+        # Display the background
+        screen.fill (background_color)
+
         # Draw the maze walls
         slice_w = width / len(p1.rays)
         for i, ray in enumerate(p1.rays):
             if ray.active_wall:
-        # Calculate height based on distance
+                # Calculate height based on distance
                 h = (15 / ray.corrected_distance) * height
-            if h > height:
-                h = height
+                if h > height:
+                    h = height
 
-        # Calculate the position to draw the wall
-            y = (height / 2) - (h / 2)
+                # Calculate the position to draw the wall
+                y = (height / 2) - (h / 2)
 
-        # Check if this wall is the exit wall
-            is_exit_wall = False
-            for wall in maze:
-                if len(wall) == 3 and wall[2]:  # Check if this is the exit wall
-                    if wall[:2] == ray.active_wall:  # Compare wall coordinates
-                        is_exit_wall = True
-                        break
+                # Check if this wall is the exit wall
+                is_exit_wall = False
+                for wall in maze:
+                    if len(wall) == 3 and wall[2]:  # Check if this is the exit wall
+                        if wall[:2] == ray.active_wall:  # Compare wall coordinates
+                            is_exit_wall = True
+                            break
 
-            if is_exit_wall:
-            # Draw the exit wall as a line
-                line_color = (255, 0, 0)  # Red color for the exit line
-                line_width = 5  # Width of the line
-                pygame.draw.line(screen, line_color, (i * slice_w, y), (i * slice_w, y + h), line_width)  # Draw exit line
-            else:
-            # Calculate the texture slice with a slight overlap
-                tex_slice = int((i / len(p1.rays)) * wall_texture.get_width())
-                tex_slice = min(tex_slice, wall_texture.get_width() - 1)
+                if is_exit_wall:
+                    # Draw the exit wall as a line
+                    line_color = (255, 0, 0)  # Red color for the exit line
+                    line_width = 5  # Width of the line
+                    pygame.draw.line(screen, line_color, (i * slice_w, y), (i * slice_w, y + h), line_width)  # Draw exit line
+                else:
+                    # Calculate the texture slice with a slight overlap
+                    tex_slice = int((i / len(p1.rays)) * wall_texture.get_width())
+                    tex_slice = min(tex_slice, wall_texture.get_width() - 1)
 
-            # Create a subsurface of the texture for the current slice
-                texture_slice = wall_texture.subsurface(tex_slice, 0, 2, wall_texture.get_height())  # Slightly wider slice
+                    # Create a subsurface of the texture for the current slice
+                    texture_slice = wall_texture.subsurface(tex_slice, 0, 2, wall_texture.get_height())  # Slightly wider slice
 
-            # Scale the texture slice to the height of the wall
-                scaled_texture = pygame.transform.smoothscale(texture_slice, (int(slice_w + 1), int(h)))  # Slightly wider slice
+                    # Scale the texture slice to the height of the wall
+                    scaled_texture = pygame.transform.smoothscale(texture_slice, (int(slice_w + 1), int(h)))  # Slightly wider slice
 
-            # Draw the scaled texture slice with a slight overlap
-                screen.blit(scaled_texture, (i * slice_w - 1, y))  # Slight overlap
+                    # Draw the scaled texture slice with a slight overlap
+                    screen.blit(scaled_texture, (i * slice_w - 1, y))  # Slight overlap
+
+        # Draw the enemy
+        enemy.draw(screen, enemy_texture)  # Pass enemy_texture to the draw method
 
         # Display the player's position on the screen
         player_position_text = f"Player Position: ({int(p1.pos[0])}, {int(p1.pos[1])})"
