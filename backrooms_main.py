@@ -10,9 +10,20 @@ def main():
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
 
-    background_color = (20, 20, 20)
+    # background_color = (0, 0, 0)
     
-    wall_texture = pygame.image.load('capture.PNG').convert()
+    wall_texture = pygame.image.load('ol6febcwjh871.PNG').convert()
+    ceiling_image = pygame.image.load('backrooms_ceiling.png').convert()
+    floor_image = pygame.image.load('floor.png').convert()  # Load the floor texture
+
+    ceiling_scaled_width = width  # Set the width to the screen width
+    ceiling_scaled_height = height // 2  # Set the height to half of the screen height
+    ceiling_image = pygame.transform.scale(ceiling_image, (ceiling_scaled_width, ceiling_scaled_height))
+
+    # Scale the floor image if needed
+    floor_scaled_width = width  # Set the width to the screen width
+    floor_scaled_height = height // 2  # Set the height to half of the screen height
+    floor_image = pygame.transform.scale(floor_image, (floor_scaled_width, floor_scaled_height))
 
     pygame.mixer.music.load("A1 - It's just a burning memory.mp3")
     pygame.mixer.music.play(loops=-1)
@@ -25,7 +36,6 @@ def main():
     maze = generate_maze(width, height, 40)  # Get the maze walls
 
     display_fade_out_message(screen, "ESCAPE THE BACKROOMS", font_for_intro)
-
 
     left, right, forward, reverse = False, False, False, False 
 
@@ -94,8 +104,9 @@ def main():
                     pygame.quit()
                     exit()
 
-        # Display the background
-        screen.fill (background_color)
+        # Draw the floor and ceiling
+        screen.blit(ceiling_image, (0, 0))
+        screen.blit(floor_image, (0, height // 2))
 
         # Draw the maze walls
         slice_w = width / len(p1.rays)
@@ -135,7 +146,6 @@ def main():
 
                     # Draw the scaled texture slice with a slight overlap
                     screen.blit(scaled_texture, (i * slice_w - 1, y))  # Slight overlap
-
 
         # Display the player's position on the screen
         player_position_text = f"Player Position: ({int(p1.pos[0])}, {int(p1.pos[1])})"
