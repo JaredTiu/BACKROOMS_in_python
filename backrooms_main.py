@@ -4,6 +4,12 @@ from sys import exit
 from maze_creation import generate_maze
 from Backrooms_support import Particle
 
+import pygame
+import math
+from sys import exit
+from maze_creation import generate_maze
+from Backrooms_support import Particle
+
 def main():
     pygame.init()
     width, height = 800, 600
@@ -20,6 +26,10 @@ def main():
     exit_cell = maze_data[1]  # Extract exit cell
     
     left, right, forward, reverse = False, False, False, False 
+
+    # Initialize font for displaying text
+    pygame.font.init()
+    font = pygame.font.SysFont("Arial", 24)  # Use a system font
     
     while True:
         for event in pygame.event.get():
@@ -106,6 +116,11 @@ def main():
             (255, 0, 0),  # Red color
             (exit_cell.pos[0], exit_cell.pos[1], exit_cell.side, exit_cell.side)
         )
+
+        # Display the player's position on the screen
+        player_position_text = f"Player Position: ({int(p1.pos[0])}, {int(p1.pos[1])})"
+        text_surface = font.render(player_position_text, True, (255, 255, 255))  # White text
+        screen.blit(text_surface, (10, 10))  # Position the text at the top-left corner
 
         pygame.display.update()
         clock.tick(30)
