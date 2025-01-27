@@ -22,6 +22,8 @@ def main():
 
     # Initialize font for displaying text
     pygame.font.init()
+    font_size_for_yehey = 100
+    font_for_yehey = pygame.font.Font(None, font_size_for_yehey)
     font = pygame.font.SysFont("Arial", 24)  # Use a system font
     
     while True:
@@ -73,8 +75,8 @@ def main():
         for wall in maze:
             if len(wall) == 3 and wall[2]:  # Check if this is the exit wall
                 if p1.line_intersects_wall(p1.pos, new_pos, wall[:2]):  # Pass only the coordinates, not the exit flag
-                    player_yehey = "yehey"
-                    text_surface = font.render(player_yehey, True, (255, 255, 255))  # White text
+                    player_yehey = "YEHEY"
+                    text_surface = font_for_yehey.render(player_yehey, True, (255, 255, 255))  # White text
                     screen.blit(text_surface, (width // 2 - 50, height // 2 - 12))  # Center the text
                     pygame.display.update()  # Update the display to show the message
                     pygame.time.wait(2000)  # Wait for 2000 milliseconds (2 seconds)
