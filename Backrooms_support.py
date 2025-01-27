@@ -24,10 +24,10 @@ class Particle:
         return False
     
     def line_intersects_wall(self, start, end, wall):
-        x1, y1 = wall[0]
-        x2, y2 = wall[1]
-        x3, y3 = start
-        x4, y4 = end
+        x1, y1 = wall[0]  # First point of the wall
+        x2, y2 = wall[1]  # Second point of the wall
+        x3, y3 = start    # Start point of the player's movement
+        x4, y4 = end      # End point of the player's movement
 
         denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
         if denom == 0:

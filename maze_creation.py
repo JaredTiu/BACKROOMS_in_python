@@ -8,7 +8,6 @@ class Cell:
         self.visited = False
         self.walls = []
         self.other_cells = []
-        self.is_exit = False  # New attribute to mark the exit
 
         self.creating_walls()
 
@@ -17,10 +16,10 @@ class Cell:
         bottom_right = (self.pos[0] + self.side, self.pos[1] + self.side)
         bottom_left = (self.pos[0], self.pos[1] + self.side)
         # Adding the cells to the list
-        self.walls.append([self.pos, top_right])
-        self.walls.append([bottom_left, bottom_right])
-        self.walls.append([self.pos, bottom_left])
-        self.walls.append([top_right, bottom_right])
+        self.walls.append([self.pos, top_right])  # Top wall
+        self.walls.append([bottom_left, bottom_right])  # Bottom wall
+        self.walls.append([self.pos, bottom_left])  # Left wall
+        self.walls.append([top_right, bottom_right])  # Right wall
 
     def find_other_cells(self, grid):
         for cell in grid:
@@ -68,16 +67,17 @@ def generate_maze(width, height, side):
                 backstep = path.pop()
                 stack.append(backstep)
 
-    # Randomly select a cell to be the exit
-    exit_cell = grid[randint(0, len(grid) - 1)]
-    exit_cell.is_exit = True
-
-    print(f"Exit cell generated at: {exit_cell.pos}")
-
     # Collect walls of the visited cells
     walls = []
     for cell in grid: 
         if cell.visited:
             walls.extend(cell.walls)
 
-    return walls, exit_cell  # Return both walls and the exit cell
+    # Randomly select a wall to be the exit
+    exit_wall = walls[randint(0, len(walls) - 1)]
+    exit_wall.append(True)  # Mark this wall as the exit
+
+    # Print the exit wall's coordinates
+    print(f"Exit wall coordinates: {exit_wall[0]} to {exit_wall[1]}")
+
+    return walls  # Return the walls, including the exit wall

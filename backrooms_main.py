@@ -4,12 +4,6 @@ from sys import exit
 from maze_creation import generate_maze
 from Backrooms_support import Particle
 
-import pygame
-import math
-from sys import exit
-from maze_creation import generate_maze
-from Backrooms_support import Particle
-
 def main():
     pygame.init()
     width, height = 800, 600
@@ -18,12 +12,10 @@ def main():
 
     background_color = (20, 20, 20)
     
-    wall_texture = pygame.image.load('ol6febcwjh871.png').convert()
+    wall_texture = pygame.image.load('kaleb.jpg').convert()
     
     p1 = Particle((20, 20), 250)
-    maze_data = generate_maze(width, height, 40)  # Get the maze data
-    maze = maze_data[0]  # Extract walls
-    exit_cell = maze_data[1]  # Extract exit cell
+    maze = generate_maze(width, height, 40)  # Get the maze walls
     
     left, right, forward, reverse = False, False, False, False 
 
@@ -73,14 +65,16 @@ def main():
             new_pos = (x, y)
 
         # Check for collision before updating the position
-        if not p1.collision_detection(new_pos, maze):
-            p1.update(new_pos, maze)  # Update only if no collision
+        # if not p1.collision_detection(new_pos, maze):
+        p1.update(new_pos, maze)  # Update only if no collision
 
-        # Check if the player has reached the exit
-        if math.dist(p1.pos, (exit_cell.pos[0] + exit_cell.side / 2, exit_cell.pos[1] + exit_cell.side / 2)) < 20:
-            print("You found the exit!")
-            pygame.quit()
-            exit()
+        # Check if the player has reached the exit wall
+        for wall in maze:
+            if len(wall) == 3 and wall[2]:  # Check if this is the exit wall
+                if p1.line_intersects_wall(p1.pos, new_pos, wall[:2]):  # Pass only the coordinates, not the exit flag
+                    print("You found the exit!")
+                    pygame.quit()
+                    exit()
 
         # Display the background
         screen.fill(background_color)
@@ -109,13 +103,6 @@ def main():
 
                 # Draw the scaled texture slice with a slight overlap
                 screen.blit(scaled_texture, (i * slice_w - 1, y))  # Slight overlap
-
-        # Draw the exit cell (a red square)
-        pygame.draw.rect(
-            screen,
-            (255, 0, 0),  # Red color
-            (exit_cell.pos[0], exit_cell.pos[1], exit_cell.side, exit_cell.side)
-        )
 
         # Display the player's position on the screen
         player_position_text = f"Player Position: ({int(p1.pos[0])}, {int(p1.pos[1])})"
