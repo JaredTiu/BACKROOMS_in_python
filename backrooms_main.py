@@ -3,8 +3,6 @@ import math
 from sys import exit
 from maze_creation import generate_maze
 from Backrooms_support import Particle
-from enemy import Enemy
-
 
 def main():
     pygame.init()
@@ -15,14 +13,10 @@ def main():
     background_color = (20, 20, 20)
     
     wall_texture = pygame.image.load('ol6febcwjh871.png').convert()
-    enemy_texture = pygame.image.load('bericow.jpg').convert_alpha()  # Load your enemy texture
-    ground_level = height - 150 # Assuming the enemy sprite is 64 pixels tall
 
     p1 = Particle((20, 20), 250)
     maze = generate_maze(width, height, 40)  # Get the maze walls
 
-    # Initialize enemy
-    enemy = Enemy(100, ground_level)  # Set the enemy's Y position to ground level
 
     left, right, forward, reverse = False, False, False, False 
 
@@ -79,12 +73,12 @@ def main():
         for wall in maze:
             if len(wall) == 3 and wall[2]:  # Check if this is the exit wall
                 if p1.line_intersects_wall(p1.pos, new_pos, wall[:2]):  # Pass only the coordinates, not the exit flag
+                    player_yehey = "yehey"
+                    text_surface = font.render(player_yehey, True, (255, 255, 255))  # White text
+                    screen.blit(text_surface, (10, 10))  
                     print("You found the exit!")
                     pygame.quit()
                     exit()
-
-        # Update enemy position
-        enemy.update(p1.pos[0], p1.pos[1])  # Update enemy position based on player position
 
         # Display the background
         screen.fill (background_color)
@@ -128,8 +122,6 @@ def main():
                     # Draw the scaled texture slice with a slight overlap
                     screen.blit(scaled_texture, (i * slice_w - 1, y))  # Slight overlap
 
-        # Draw the enemy
-        enemy.draw(screen, enemy_texture, ground_level)  # Pass enemy_texture and ground level
 
         # Display the player's position on the screen
         player_position_text = f"Player Position: ({int(p1.pos[0])}, {int(p1.pos[1])})"
