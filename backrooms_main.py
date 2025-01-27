@@ -12,7 +12,7 @@ def main():
 
     background_color = (20, 20, 20)
     
-    wall_texture = pygame.image.load('kaleb.jpg').convert()
+    wall_texture = pygame.image.load('ol6febcwjh871.png').convert()
     
     p1 = Particle((20, 20), 250)
     maze = generate_maze(width, height, 40)  # Get the maze walls
