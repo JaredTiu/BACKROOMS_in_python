@@ -11,8 +11,6 @@ def main():
     clock = pygame.time.Clock()
 
     background_color = (20, 20, 20)
-    floor_color = (50, 50, 50) 
-    ceiling_color = (100, 100, 100)
     
     wall_texture = pygame.image.load('capture.PNG').convert()
     
@@ -69,12 +67,6 @@ def main():
         # Display the background
         screen.fill(background_color)
 
-        # Draw the ceiling
-        pygame.draw.rect(screen, ceiling_color, (0, 0, width, height // 2))
-        
-        # Draw the floor
-        pygame.draw.rect(screen, floor_color, (0, height // 2, width, height // 2))
-
         slice_w = width / len(p1.rays)
         for i, ray in enumerate(p1.rays):
             if ray.active_wall:
@@ -86,18 +78,18 @@ def main():
                 # Calculate the position to draw the wall
                 y = (height / 2) - (h / 2)
 
-                # Calculate the texture slice
+                # Calculate the texture slice with a slight overlap
                 tex_slice = int((i / len(p1.rays)) * wall_texture.get_width())
                 tex_slice = min(tex_slice, wall_texture.get_width() - 1)
 
                 # Create a subsurface of the texture for the current slice
-                texture_slice = wall_texture.subsurface(tex_slice, 0, 1, wall_texture.get_height())
+                texture_slice = wall_texture.subsurface(tex_slice, 0, 2, wall_texture.get_height())  # Slightly wider slice
 
                 # Scale the texture slice to the height of the wall
-                scaled_texture = pygame.transform.smoothscale(texture_slice, (int(slice_w), int(h)))
+                scaled_texture = pygame.transform.smoothscale(texture_slice, (int(slice_w + 1), int(h)))  # Slightly wider slice
 
-                # Draw the scaled texture slice
-                screen.blit(scaled_texture, (i * slice_w, y))
+                # Draw the scaled texture slice with a slight overlap
+                screen.blit(scaled_texture, (i * slice_w - 1, y))  # Slight overlap
 
         pygame.display.update()
         clock.tick(30)
