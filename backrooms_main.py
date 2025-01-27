@@ -65,8 +65,8 @@ def main():
             new_pos = (x, y)
 
         # Check for collision before updating the position
-        # if not p1.collision_detection(new_pos, maze):
-        p1.update(new_pos, maze)  # Update only if no collision
+        if not p1.collision_detection(new_pos, maze):
+            p1.update(new_pos, maze)  # Update only if no collision
 
         # Check if the player has reached the exit wall
         for wall in maze:
