@@ -12,7 +12,7 @@ def main():
 
     background_color = (20, 20, 20)
     
-    wall_texture = pygame.image.load('ol6febcwjh871.png').convert()
+    wall_texture = pygame.image.load('capture.PNG').convert()
 
     p1 = Particle((20, 20), 250)
     maze = generate_maze(width, height, 40)  # Get the maze walls
@@ -75,7 +75,9 @@ def main():
                 if p1.line_intersects_wall(p1.pos, new_pos, wall[:2]):  # Pass only the coordinates, not the exit flag
                     player_yehey = "yehey"
                     text_surface = font.render(player_yehey, True, (255, 255, 255))  # White text
-                    screen.blit(text_surface, (10, 10))  
+                    screen.blit(text_surface, (width // 2 - 50, height // 2 - 12))  # Center the text
+                    pygame.display.update()  # Update the display to show the message
+                    pygame.time.wait(2000)  # Wait for 2000 milliseconds (2 seconds)
                     print("You found the exit!")
                     pygame.quit()
                     exit()
