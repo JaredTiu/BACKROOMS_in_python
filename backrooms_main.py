@@ -12,10 +12,12 @@ def main():
 
     background_color = (20, 20, 20)
     
-    wall_texture = pygame.image.load('capture.PNG').convert()
+    wall_texture = pygame.image.load('ol6febcwjh871.png').convert()
     
     p1 = Particle((20, 20), 250)
-    maze = generate_maze(width, height, 40)
+    maze_data = generate_maze(width, height, 40)  # Get the maze data
+    maze = maze_data[0]  # Extract walls
+    exit_cell = maze_data[1]  # Extract exit cell
     
     left, right, forward, reverse = False, False, False, False 
     
@@ -64,9 +66,16 @@ def main():
         if not p1.collision_detection(new_pos, maze):
             p1.update(new_pos, maze)  # Update only if no collision
 
+        # Check if the player has reached the exit
+        if math.dist(p1.pos, (exit_cell.pos[0] + exit_cell.side / 2, exit_cell.pos[1] + exit_cell.side / 2)) < 20:
+            print("You found the exit!")
+            pygame.quit()
+            exit()
+
         # Display the background
         screen.fill(background_color)
 
+        # Draw the maze walls
         slice_w = width / len(p1.rays)
         for i, ray in enumerate(p1.rays):
             if ray.active_wall:
@@ -90,6 +99,13 @@ def main():
 
                 # Draw the scaled texture slice with a slight overlap
                 screen.blit(scaled_texture, (i * slice_w - 1, y))  # Slight overlap
+
+        # Draw the exit cell (a red square)
+        pygame.draw.rect(
+            screen,
+            (255, 0, 0),  # Red color
+            (exit_cell.pos[0], exit_cell.pos[1], exit_cell.side, exit_cell.side)
+        )
 
         pygame.display.update()
         clock.tick(30)
