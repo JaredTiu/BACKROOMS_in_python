@@ -4,6 +4,12 @@ from sys import exit
 from maze_creation import generate_maze
 from Backrooms_support import Particle
 
+import pygame
+import math
+from sys import exit
+from maze_creation import generate_maze
+from Backrooms_support import Particle
+
 def main():
     pygame.init()
     width, height = 800, 600
@@ -86,8 +92,17 @@ def main():
                 # Calculate the position to draw the wall
                 y = (height / 2) - (h / 2)
 
-                # Draw the wall texture directly without slicing
-                scaled_texture = pygame.transform.smoothscale(wall_texture, (int(slice_w), int(h)))
+                # Calculate the texture slice
+                tex_slice = int((i / len(p1.rays)) * wall_texture.get_width())
+                tex_slice = min(tex_slice, wall_texture.get_width() - 1)
+
+                # Create a subsurface of the texture for the current slice
+                texture_slice = wall_texture.subsurface(tex_slice, 0, 1, wall_texture.get_height())
+
+                # Scale the texture slice to the height of the wall
+                scaled_texture = pygame.transform.smoothscale(texture_slice, (int(slice_w), int(h)))
+
+                # Draw the scaled texture slice
                 screen.blit(scaled_texture, (i * slice_w, y))
 
         pygame.display.update()
